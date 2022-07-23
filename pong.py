@@ -104,7 +104,6 @@ def main():
                 ball_vel_x += 2
 
             ball_vel_x *= -1
-            ball_vel_y *= -1
 
         # Text
         gscore1 = font.render(str(score1), True, WHITE)
