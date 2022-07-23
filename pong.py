@@ -8,10 +8,10 @@ def main():
     score2 = 0
 
     ball_rect = pygame.Rect(640, 360 ,10, 10)
-    ball_vel_y = 5
-    ball_vel_x = -5
+    ball_vel_y = 2
+    ball_vel_x = -2
 
-    paddle_vel_y = 13
+    paddle_vel_y = 11
     paddle1 = pygame.Rect(50, 360, 10, 50)
     paddle2 = pygame.Rect(1205, 360, 10, 50)
 
@@ -46,6 +46,8 @@ def main():
         ball_rect.y += ball_vel_y
         ball_rect.x += ball_vel_x
 
+        print(ball_vel_x, ball_vel_y)
+
         # Controls
         userInput = pygame.key.get_pressed()
         if userInput[pygame.K_w] and paddle1.y > 0:
@@ -65,27 +67,23 @@ def main():
 
         # Ball changing direction after colliding with one of the paddles or one of the screen border
 
-        if ball_rect.x == 1280:
+        if ball_rect.x > 1280:
             score_sfx = mixer.Sound('data/audio/score.wav')
             score_sfx.play()
             score1 += 1
-            ball_vel_y = 5
-            ball_vel_x = random.choice((-5, 5))
+            ball_vel_y = 2
+            ball_vel_x = random.choice((-2, 2))
             ball_rect.y = random.randint(0, 720)
             ball_rect.x = 640
-            print(ball_vel_x)
-            print(ball_rect.y)
 
-        if ball_rect.x == 0:
+        if ball_rect.x < 0:
             score_sfx = mixer.Sound('data/audio/score.wav')
             score_sfx.play()
             score2 += 1
-            ball_vel_y = 5
-            ball_vel_x = random.choice((-5, 5))
+            ball_vel_y = 2
+            ball_vel_x = random.choice((-2, 2))
             ball_rect.y = random.randint(0, 720)
             ball_rect.x = 640
-            print(ball_vel_x)
-            print(ball_rect.y)
 
         if ball_rect.y > 720 or ball_rect.y < 0:
             wall_hit = mixer.Sound('data/audio/wall.wav')
@@ -95,6 +93,16 @@ def main():
         if ball_rect.colliderect(paddle1) or ball_rect.colliderect(paddle2):
             paddle_hit = mixer.Sound('data/audio/paddle.wav')
             paddle_hit.play()
+
+            if ball_vel_y == -2:
+                ball_vel_y -= 2
+            elif ball_vel_y == 2:
+                ball_vel_y += 2
+            if ball_vel_x == -2:
+                ball_vel_x -= 2
+            elif ball_vel_x == 2:
+                ball_vel_x += 2
+
             ball_vel_x *= -1
             ball_vel_y *= -1
 
